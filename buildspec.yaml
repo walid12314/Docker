@@ -1,6 +1,9 @@
+version: 0.2
+
 phases:
   pre_build:
     commands:
+      - set -e
       - echo Logging in to Amazon ECR...
       - aws --version
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 034362058993.dkr.ecr.us-east-1.amazonaws.com
@@ -11,6 +14,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
+      - docker --version
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
